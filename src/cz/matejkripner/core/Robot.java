@@ -1,7 +1,7 @@
 package cz.matejkripner.core;
 
 /**
- * @author Matìj Kripner <kripnermatej@gmail.com>
+ * @author MatÃ¬j Kripner <kripnermatej@gmail.com>
  * @version 1.0
  */
 public class Robot {
@@ -12,6 +12,10 @@ public class Robot {
     }
 
     protected int gyro() {
+
+    }
+    
+    protected int sonar() {
 
     }
 
