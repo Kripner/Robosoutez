@@ -22,10 +22,10 @@ public class Point {
     }
 
     public Point addX(int x) {
-
+        return new Point(this.x + x, y);
     }
 
     public Point addY(int y) {
-
+        return new Point(x, this.y + y);
     }
 }

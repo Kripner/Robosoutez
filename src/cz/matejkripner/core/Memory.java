@@ -1,7 +1,9 @@
 package cz.matejkripner.core;
 
 import com.sun.istack.internal.NotNull;
+import cz.matejkripner.Main;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -10,6 +12,9 @@ import java.util.Objects;
  */
 public class Memory {
 
+    private static final Point START = new Point(4, 3);
+    private static final Direction STARTING_DIRECTION = Direction.UP;
+
     private Point robotPosition;
 
     private Direction robotDirection;
@@ -17,12 +22,16 @@ public class Memory {
     private Chunk[][] board;
 
     public Memory(Point robotPosition, Direction robotDirection) {
-        this.robotPosition = robotPosition;
-        this.robotDirection = robotDirection;
+        this.robotPosition = START;
+        this.robotDirection = STARTING_DIRECTION;
     }
 
     private void initBoard() {
-        board = new Chunk[];
+        board = new Chunk[Main.BOARD_HEIGHT][];
+        for (int i = 0; i < Main.BOARD_HEIGHT; i++) {
+            board[i] = new Chunk[Main.BOARD_WIDTH];
+            Arrays.fill(board, Chunk.UNKNOWN);
+        }
     }
 
     public void turnLeft() {
