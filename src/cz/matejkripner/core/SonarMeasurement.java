@@ -6,26 +6,25 @@ package cz.matejkripner.core;
  */
 public class SonarMeasurement {
 
-    private final boolean wallOnHead;
-    private final boolean wallOnRight;
+    private final int wallOnHead;
+    private final int wallOnRight;
+    private final int wallOnLeft;
 
-    private final boolean wallOnLeft;
-
-    public SonarMeasurement(boolean wallOnHead, boolean wallOnRight, boolean wallOnLeft) {
+    public SonarMeasurement(int wallOnHead, int wallOnRight, int wallOnLeft) {
         this.wallOnHead = wallOnHead;
         this.wallOnRight = wallOnRight;
         this.wallOnLeft = wallOnLeft;
     }
 
-    public boolean isWallOnLeft() {
+    public int isWallOnLeft() {
         return wallOnLeft;
     }
 
-    public boolean isWallOnRight() {
+    public int isWallOnRight() {
         return wallOnRight;
     }
 
-    public boolean isWallOnHead() {
+    public int isWallOnHead() {
         return wallOnHead;
     }
 }

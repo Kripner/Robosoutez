@@ -57,25 +57,25 @@ public class Robot {
     }
 
     public void turnLeft() {
-        Measurement.allInactual(); // TODO: maybe not all measurement
+        Measurement.allOutdated(); // TODO: maybe not all measurement
         memory.turnLeft();
         // TODO: logic
     }
 
     public void turnRight() {
-        Measurement.allInactual(); // TODO: maybe not all measurement
+        Measurement.allOutdated(); // TODO: maybe not all measurement
         memory.turnRight();
         // TODO: logic
     }
 
     public void goAhead() {
-        Measurement.allInactual();
+        Measurement.allOutdated();
         memory.goAhead();
         // TODO: logic
     }
 
     public void goBack() {
-        Measurement.allInactual();
+        Measurement.allOutdated();
         memory.goBack();
         // TODO: logic
     }

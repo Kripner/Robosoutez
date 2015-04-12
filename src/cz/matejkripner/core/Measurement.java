@@ -33,7 +33,7 @@ public class Measurement<R> {
 
     private static final List<WeakReference<Measurement<?>>> measurements = new ArrayList<>();
 
-    public static void allInactual() {
+    public static void allOutdated() {
         measurements.forEach(r -> {
             Measurement<?> m;
             if ((m = r.get()) == null) measurements.remove(r); // removed by GC
