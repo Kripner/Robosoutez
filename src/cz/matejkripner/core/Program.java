@@ -45,7 +45,7 @@ public class Program implements Iterable<Program.Instruction>{
 
         @Override
         public void perform(Robot robot) {
-            // TODO: logic
+
         }
     }
 
