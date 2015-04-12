@@ -23,10 +23,6 @@ public class Robot {
         return (gyro = new Measurement<>(result)).getResult();
 
     }
-    
-    protected int sonar() {
-
-    }
 
     public Direction direction() {
         // TODO: implement

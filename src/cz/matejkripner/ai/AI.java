@@ -15,6 +15,7 @@ public class AI implements Runnable {
 
     @Override
     public void run() {
-
+        robot.goAhead();
+        Map.FIRST.getProgram().run(robot);
     }
 }

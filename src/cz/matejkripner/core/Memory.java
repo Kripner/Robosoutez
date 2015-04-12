@@ -35,19 +35,19 @@ public class Memory {
     }
 
     public void turnLeft() {
-
+        // TODO: implement
     }
 
     public void turnRight() {
-
+        // TODO: implement
     }
 
     public void goAhead() {
-
+        // TODO: implement
     }
 
     public void goBack() {
-
+        // TODO: implement
     }
 
     public Point getRobotPosition() {
@@ -60,6 +60,9 @@ public class Memory {
 
     public Chunk getChunk(Point point) {
         return board[point.getY()][point.getX()];
+    }
+    public void setChunk(Point point, Chunk newValue) {
+        board[point.getY()][point.getX()] = newValue;
     }
 
     enum Chunk {
