@@ -7,11 +7,20 @@ package cz.matejkripner.core;
 public class Robot {
     private Memory memory;
 
+    private Measurement<Boolean> headTouched;
+    private Measurement<Boolean> backTouched;
+    private Measurement<Integer> gyro;
+    private Measurement<SonarMeasurement> sonar;
+
     public Robot(Memory memory) {
         this.memory = memory;
     }
 
-    protected int gyro() {
+    public int gyro() {
+        if(gyro.isActual()) return gyro.getResult();
+        int result = 0;
+        // TODO: logic
+        return (gyro = new Measurement<>(result)).getResult();
 
     }
     
@@ -19,28 +28,56 @@ public class Robot {
 
     }
 
-    protected boolean headTouch() {
-
+    public Direction direction() {
+        // TODO: implement
     }
 
-    protected boolean backTouch() {
+    public boolean headTouch() {
+        if(headTouched.isActual()) return headTouched.getResult();
+        boolean result = false;
+        // TODO: logic
+        return (headTouched = new Measurement<>(result)).getResult();
+        // TODO: work with memory
+    }
 
+    public boolean backTouch() {
+        if(backTouched.isActual()) return backTouched.getResult();
+        boolean result = false;
+        // TODO: logic
+        return (backTouched = new Measurement<>(result)).getResult();
+        // TODO: work with memory
+    }
+
+    public SonarMeasurement sonar() {
+        if(sonar.isActual()) return sonar.getResult();
+        SonarMeasurement result = null;
+        // TODO: logic
+        return (sonar = new Measurement<>(result)).getResult();
+        // TODO: work with memory
     }
 
     public void turnLeft() {
-
+        Measurement.allInactual(); // TODO: maybe not all measurement
+        memory.turnLeft();
+        // TODO: logic
     }
 
     public void turnRight() {
-
+        Measurement.allInactual(); // TODO: maybe not all measurement
+        memory.turnRight();
+        // TODO: logic
     }
 
     public void goAhead() {
-
+        Measurement.allInactual();
+        memory.goAhead();
+        // TODO: logic
     }
 
     public void goBack() {
-
+        Measurement.allInactual();
+        memory.goBack();
+        // TODO: logic
     }
 
     public Memory getMemory() {

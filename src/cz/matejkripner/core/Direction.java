@@ -30,4 +30,5 @@ public enum Direction {
     public Point goThisDirection(Point point) {
         return goThisDirection.apply(point);
     }
+
 }
