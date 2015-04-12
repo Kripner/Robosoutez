@@ -45,7 +45,12 @@ public class Program implements Iterable<Program.Instruction>{
 
         @Override
         public void perform(Robot robot) {
-
+            toGo.perform(robot);
+            if (robot.backTouch() || robot.headTouch()) {
+                while (!robot.sonar().equals(sonarMeasurementExpected)) {
+                    robot.turnLeft();
+                }
+            }
         }
     }
 
@@ -81,7 +86,7 @@ public class Program implements Iterable<Program.Instruction>{
     public void run(Robot robot) {
         running = true;
         for (Instruction i : instructions) {
-            if(!running) return;
+            if(!running) return; // instruction may end the program
         }
         running = false;
     }

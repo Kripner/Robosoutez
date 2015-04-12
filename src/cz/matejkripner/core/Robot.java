@@ -12,6 +12,8 @@ public class Robot {
     private Measurement<Integer> gyro;
     private Measurement<SonarMeasurement> sonar;
 
+    private int expectedDirection; // TODO: work with this
+
     public Robot(Memory memory) {
         this.memory = memory;
     }
