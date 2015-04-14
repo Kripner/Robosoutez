@@ -1,46 +1,30 @@
 package cz.matejkripner.core;
 
-import java.util.Objects;
-
 /**
  * @author Matìj Kripner <kripnermatej@gmail.com>
  * @version 1.0
  */
 public class SonarMeasurement {
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SonarMeasurement that = (SonarMeasurement) o;
-        return Objects.equals(wallsOnHead, that.wallsOnHead) &&
-                Objects.equals(wallsOnRight, that.wallsOnRight) &&
-                Objects.equals(wallsOnLeft, that.wallsOnLeft);
+
+    private final int left;
+    private final int ahead;
+    private final int right;
+
+    public SonarMeasurement(int left, int ahead, int right) {
+        this.left = left;
+        this.ahead = ahead;
+        this.right = right;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(wallsOnHead, wallsOnRight, wallsOnLeft);
+    public int getRight() {
+        return right;
     }
 
-    private final int wallsOnHead;
-    private final int wallsOnRight;
-    private final int wallsOnLeft;
-
-    public SonarMeasurement(int wallsOnHead, int wallsOnRight, int wallsOnLeft) {
-        this.wallsOnHead = wallsOnHead;
-        this.wallsOnRight = wallsOnRight;
-        this.wallsOnLeft = wallsOnLeft;
+    public int getAhead() {
+        return ahead;
     }
 
-    public int getWallsOnLeft() {
-        return wallsOnLeft;
-    }
-
-    public int getWallsOnRight() {
-        return wallsOnRight;
-    }
-
-    public int getWallsOnHead() {
-        return wallsOnHead;
+    public int getLeft() {
+        return left;
     }
 }
