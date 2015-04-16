@@ -10,19 +10,19 @@ public enum Movement {
     GO_AHEAD {
         @Override
         public void perform(Hardware hardware) {
-            Main.currentHardware.travel(ONE_BLOCK_DISTANCE);
+            Main.currentHardware.travel(Main.ONE_TILL_DISTANCE);
         }
     },
     GO_BACK {
         @Override
         public void perform(Hardware hardware) {
-            Main.currentHardware.travel(-ONE_BLOCK_DISTANCE);
+            Main.currentHardware.travel(-Main.ONE_TILL_DISTANCE);
         }
     },
     GO_HALF_BACK {
         @Override
         public void perform(Hardware hardware) {
-            Main.currentHardware.travel(-FROM_WALL_TO_CENTER_DISTANCE);
+            Main.currentHardware.travel(-Main.FROM_WALL_TO_CENTER_DISTANCE);
         }
     },
     TURN_LEFT {
@@ -38,11 +38,12 @@ public enum Movement {
         }
     };
 
-    private static final int ONE_BLOCK_DISTANCE = 280; // in millimeters
-    private static final int ROBOT_LENGTH = 212;
-    private static final int FROM_WALL_TO_CENTER_DISTANCE = (ONE_BLOCK_DISTANCE - ROBOT_LENGTH) / 2;
-
     public void perform(Hardware hardware) {
         throw new AbstractMethodError();
+    }
+
+    public boolean cracked() {
+        if (this == GO_BACK || this == GO_HALF_BACK) return Main.currentHardware.backTouch();
+        else return Main.currentHardware.backTouch();
     }
 }

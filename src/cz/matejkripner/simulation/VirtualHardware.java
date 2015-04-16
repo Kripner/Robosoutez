@@ -1,23 +1,12 @@
-package cz.matejkripner.core;
+package cz.matejkripner.simulation;
+
+import cz.matejkripner.core.Hardware;
 
 /**
  * @author Matìj Kripner <kripnermatej@gmail.com>
  * @version 1.0
  */
-public class ClassicalHardware implements Hardware {
-
-    private static final ClassicalHardware instance = new ClassicalHardware();
-
-    private ClassicalHardware() {
-        // exists only to defeat initialization
-    }
-
-    public static ClassicalHardware getInstance() {
-        return instance;
-    }
-
-    // TODO: implement methods using standard EV3 libraries
-
+public class VirtualHardware implements Hardware {
     @Override
     public void travel(int distance) {
 
@@ -25,26 +14,26 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public void turnLeft() {
-
+        turnLeft(90);
     }
 
     @Override
     public void turnRight() {
-
+        turnRight(90);
     }
 
     @Override
-    public void rotateLeft(int angle) {
-
+    public void turnLeft(int angle) {
+        turn(angle);
     }
 
     @Override
-    public void rotateRight(int angle) {
-
+    public void turnRight(int angle) {
+        turn(-angle);
     }
 
     @Override
-    public void rotate(int angle) {
+    public void turn(int angle) {
 
     }
 
@@ -74,7 +63,17 @@ public class ClassicalHardware implements Hardware {
     }
 
     @Override
-    public void turnSonar(Direction direction) {
+    public void turnSonarLeft() {
+
+    }
+
+    @Override
+    public void turnSonarAhead() {
+
+    }
+
+    @Override
+    public void turnSonarBack() {
 
     }
 
