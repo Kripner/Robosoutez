@@ -72,9 +72,9 @@ public enum Program implements Runnable {
 
     private void perform(Instruction instruction) {
         instruction.perform(Main.currentHardware);
-        if (instruction instanceof MovementInstruction && ((MovementInstruction) instruction).movement.cracked()) {
-            // TODO: work with error (robot's cracked)
-        }
+//        if (instruction instanceof MovementInstruction && ((MovementInstruction) instruction).movement.cracked()) {
+//            // TODO: work with error (robot's cracked)
+//        }
     }
 
     static interface Instruction {
