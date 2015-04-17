@@ -82,7 +82,10 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public int gyro() {
-        return gyro.getAngleMode().sampleSize();
+        float [] data = new float[gyro.sampleSize()];
+        gyro.getAngleMode().fetchSample(data,1);
+        return Math.round(data [0]);
+
     }
 
 //    @Override
