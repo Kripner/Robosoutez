@@ -1,6 +1,8 @@
 package cz.matejkripner.core;
 
 import lejos.hardware.motor.Motor;
+import lejos.hardware.port.Port;
+import lejos.hardware.sensor.EV3GyroSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 
 /**
@@ -11,6 +13,8 @@ public class ClassicalHardware implements Hardware {
 
     private static final ClassicalHardware instance = new ClassicalHardware();
     private DifferentialPilot pilot = new DifferentialPilot(2.1f, 4f, Motor.A, Motor.C, true);
+    private EV3GyroSensor gyro = new EV3GyroSensor(Port 3);
+
 
     private ClassicalHardware() {
 
@@ -40,16 +44,17 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public void turnLeft(int angle) {
-
+        pilot.rotate(angle);
     }
 
     @Override
     public void turnRight(int angle) {
-
+        pilot.rotate(-angle);
     }
 
     @Override
     public void turn(int angle) {
+        pilot.rotate(angle);
 
     }
 
@@ -60,22 +65,22 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public int sonar() {
-        return 0;
+        return gyro.getAngleAndRateMode();
     }
 
     @Override
     public boolean headTouch() {
-        if ()
+       return false;
     }
 
     @Override
     public boolean backTouch() {
-
+        return false;
     }
 
     @Override
     public int gyro() {
-        return 0;
+
     }
 
     @Override
