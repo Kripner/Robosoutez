@@ -25,17 +25,17 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public void travel(int distance) {
-        DifferentialPilot pilot = new DifferentialPilot(2.1f, 4.4f, Motor.A, Motor.C, true);
+        DifferentialPilot pilot = new DifferentialPilot(2.71f, 4.4f, Motor.A, Motor.C, true);
     }
 
     @Override
     public void turnLeft() {
-
+        pilot.rotate(-90);
     }
 
     @Override
     public void turnRight() {
-
+        pilot.rotate(90);
     }
 
     @Override
@@ -50,12 +50,12 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public boolean headTouch() {
-        return false;
+        if ()
     }
 
     @Override
     public boolean backTouch() {
-        return false;
+
     }
 
     @Override
