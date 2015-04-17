@@ -24,19 +24,19 @@ public enum Measurement {
             return hardware.headTouch();
         }
     },
-    SONAR {
-        @Override
-        protected Object doMeasurement(Hardware hardware) {
-            Map<Hardware.Direction, Integer> measurements = new HashMap<>();
-            measurements.put(hardware.getSonarDirection(), hardware.sonar());
-            Hardware.Direction[] process = hardware.getSonarDirection().processAll();
-            hardware.turnSonar(process[0]);
-            measurements.put(process[0], hardware.sonar());
-            hardware.turnSonar(process[1]);
-            measurements.put(process[1], hardware.sonar());
-            return new SonarMeasurement(measurements);
-        }
-    },
+//    SONAR {
+//        @Override
+////        protected Object doMeasurement(Hardware hardware) {
+////            Map<Hardware.Direction, Integer> measurements = new HashMap<>();
+////            measurements.put(hardware.getSonarDirection(), hardware.sonar());
+////            Hardware.Direction[] process = hardware.getSonarDirection().processAll();
+////            hardware.turnSonar(process[0]);
+////            measurements.put(process[0], hardware.sonar());
+////            hardware.turnSonar(process[1]);
+////            measurements.put(process[1], hardware.sonar());
+////            return new SonarMeasurement(measurements);
+////        }
+//    },
     GYRO {
         @Override
         protected Object doMeasurement(Hardware hardware) {

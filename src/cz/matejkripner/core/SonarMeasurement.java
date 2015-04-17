@@ -18,9 +18,9 @@ public class SonarMeasurement {
         this.right = right;
     }
 
-    public SonarMeasurement(Map<Hardware.Direction, Integer> directions) {
-        this(directions.get(Hardware.Direction.LEFT), directions.get(Hardware.Direction.AHEAD), directions.get(Hardware.Direction.RIGHT));
-    }
+//    public SonarMeasurement(Map<Hardware.Direction, Integer> directions) {
+//        this(directions.get(Hardware.Direction.LEFT), directions.get(Hardware.Direction.AHEAD), directions.get(Hardware.Direction.RIGHT));
+//    }
 
     public int getRight() {
         return right;

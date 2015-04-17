@@ -1,5 +1,6 @@
 package cz.matejkripner.core;
 
+import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.Motor;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3GyroSensor;
@@ -13,7 +14,8 @@ public class ClassicalHardware implements Hardware {
 
     private static final ClassicalHardware instance = new ClassicalHardware();
     private DifferentialPilot pilot = new DifferentialPilot(2.1f, 4f, Motor.A, Motor.C, true);
-    private EV3GyroSensor gyro = new EV3GyroSensor(Port 3);
+    Port port = LocalEV3.get().getPort("S3");
+    private EV3GyroSensor gyro = new EV3GyroSensor(port);
 
 
     private ClassicalHardware() {
@@ -65,7 +67,7 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public int sonar() {
-        return gyro.getAngleAndRateMode();
+        return 0;
     }
 
     @Override
@@ -80,16 +82,16 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public int gyro() {
-
+        return gyro.getAngleMode().sampleSize();
     }
 
-    @Override
-    public void turnSonar(Direction direction) {
-
-    }
-
-    @Override
-    public Direction getSonarDirection() {
-        return null;
-    }
+//    @Override
+//    public void turnSonar(Direction direction) {
+//
+//    }
+//
+//    @Override
+//    public Direction getSonarDirection() {
+//        return null;
+//    }
 }
