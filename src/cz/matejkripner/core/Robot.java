@@ -6,7 +6,7 @@ import cz.matejkripner.Utils;
 import java.util.function.Predicate;
 
 /**
- * @author Matìj Kripner <kripnermatej@gmail.com>
+ * @author Matï¿½j Kripner <kripnermatej@gmail.com>
  * @version 1.0
  */
 public class Robot {
@@ -22,19 +22,19 @@ public class Robot {
     private void turnRight() {
         expectedDirection -= 90; // TODO: check if really minus and really 90
         Main.currentHardware.turnRight();
-        turnToExpectedDirection();
+//        turnToExpectedDirection();
     }
 
     private void turnLeft() {
         expectedDirection += 90; // TODO: check if really plus and really 90
         Main.currentHardware.turnLeft();
-        turnToExpectedDirection();
+//        turnToExpectedDirection();
     }
 
-    private void turnToExpectedDirection() {
-        Utils.whileLoop(v -> Main.currentHardware.turn(Main.currentHardware.gyro() - expectedDirection), // TODO: debug
-                v -> Main.currentHardware.gyro() != expectedDirection, 3);
-    }
+//    private void turnToExpectedDirection() {
+//        Utils.whileLoop(v -> Main.currentHardware.turn(Main.currentHardware.gyro() - expectedDirection), // TODO: debug
+//                v -> Main.currentHardware.gyro() != expectedDirection, 3);
+//    }
 
     public Object test(Measurement measurement) {
         if (!measurement.isActual()) measurement.doMeasurement(Main.currentHardware);

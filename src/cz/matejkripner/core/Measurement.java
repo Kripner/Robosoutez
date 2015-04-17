@@ -64,7 +64,9 @@ public enum Measurement {
     }
 
     public static void allOutdated() {
-        Arrays.stream(Measurement.values()).forEach(m -> m.setActual(false));
+        for(Measurement m : Measurement.values()) {
+            m.setActual(false);
+        }
     }
 
     protected Object doMeasurement(Hardware hardware) {

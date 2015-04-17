@@ -63,7 +63,9 @@ public enum Program implements Runnable {
 
     @Override
     public void run() {
-        instructions.forEach(i -> i.perform(Main.currentHardware));
+        for(Instruction i : instructions) {
+            i.perform(Main.currentHardware);
+        }
     }
 
     private void perform(Instruction instruction) {

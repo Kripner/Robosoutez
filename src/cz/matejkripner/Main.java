@@ -1,6 +1,7 @@
 package cz.matejkripner;
 
 import cz.matejkripner.ai.AI;
+import cz.matejkripner.ai.Program;
 import cz.matejkripner.core.ClassicalHardware;
 import cz.matejkripner.core.Hardware;
 
@@ -17,7 +18,7 @@ public class Main {
     public static void main(String[] args) {
         currentHardware = ClassicalHardware.getInstance();
 
-        AI ai = new AI(args[0]);
+        AI ai = new AI("FIRST");
         ai.run();
     }
 }
