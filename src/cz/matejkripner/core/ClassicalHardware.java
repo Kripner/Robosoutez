@@ -1,5 +1,8 @@
 package cz.matejkripner.core;
 
+import lejos.hardware.motor.Motor;
+import lejos.robotics.navigation.DifferentialPilot;
+
 /**
  * @author Matìj Kripner <kripnermatej@gmail.com>
  * @version 1.0
@@ -7,9 +10,10 @@ package cz.matejkripner.core;
 public class ClassicalHardware implements Hardware {
 
     private static final ClassicalHardware instance = new ClassicalHardware();
+    private DifferentialPilot pilot = new DifferentialPilot(2.1f, 4f, Motor.A, Motor.C, true);
 
     private ClassicalHardware() {
-        // exists only to defeat initialization
+
     }
 
     public static ClassicalHardware getInstance() {
@@ -18,18 +22,19 @@ public class ClassicalHardware implements Hardware {
 
     // TODO: implement methods using standard EV3 libraries
 
+
     @Override
-    public void forward() {
+    public void travel(int distance) {
+        DifferentialPilot pilot = new DifferentialPilot(2.1f, 4.4f, Motor.A, Motor.C, true);
+    }
+
+    @Override
+    public void turnLeft() {
 
     }
 
     @Override
-    public void backward() {
-
-    }
-
-    @Override
-    public void stop() {
+    public void turnRight() {
 
     }
 
