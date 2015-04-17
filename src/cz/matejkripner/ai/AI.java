@@ -1,6 +1,7 @@
 package cz.matejkripner.ai;
 
 /**
+<<<<<<< HEAD
  * @author Matìj Kripner <kripnermatej@gmail.com>
  * @version 1.0
  */
