@@ -11,6 +11,12 @@ public interface Hardware {
 
     void turnRight();
 
+    void turnLeft(int angle);
+
+    void turnRight(int angle);
+
+    void turn(int angle);
+
     boolean isRunning();
 
     int sonar();
@@ -21,17 +27,23 @@ public interface Hardware {
 
     int gyro();
 
-    void turnSonarLeft();
-
-    void turnSonarAhead();
-
-    void turnSonarBack();
+    void turnSonar(Direction direction);
 
     Direction getSonarDirection();
 
     enum Direction {
-        AHEAD,
-        LEFT,
-        RIGHT
+        AHEAD(Direction.LEFT, Direction.RIGHT),
+        LEFT(Direction.AHEAD, Direction.RIGHT),
+        RIGHT(Direction.AHEAD, Direction.LEFT);
+
+        private final Direction[] processAll;
+
+        Direction(Direction ... processAll) {
+            this.processAll = processAll;
+        }
+
+        public Direction[] processAll() {
+            return processAll;
+        }
     }
 }

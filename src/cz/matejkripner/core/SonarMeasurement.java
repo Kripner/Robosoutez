@@ -1,5 +1,7 @@
 package cz.matejkripner.core;
 
+import java.util.Map;
+
 /**
  * @author Matìj Kripner <kripnermatej@gmail.com>
  * @version 1.0
@@ -14,6 +16,10 @@ public class SonarMeasurement {
         this.left = left;
         this.ahead = ahead;
         this.right = right;
+    }
+
+    public SonarMeasurement(Map<Hardware.Direction, Integer> directions) {
+        this(directions.get(Hardware.Direction.LEFT), directions.get(Hardware.Direction.AHEAD), directions.get(Hardware.Direction.RIGHT));
     }
 
     public int getRight() {

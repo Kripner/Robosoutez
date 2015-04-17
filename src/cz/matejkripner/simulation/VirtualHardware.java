@@ -1,51 +1,35 @@
-package cz.matejkripner.core;
+package cz.matejkripner.simulation;
 
-import lejos.hardware.motor.Motor;
-import lejos.robotics.navigation.DifferentialPilot;
+import cz.matejkripner.core.Hardware;
 
 /**
  * @author Matìj Kripner <kripnermatej@gmail.com>
  * @version 1.0
  */
-public class ClassicalHardware implements Hardware {
-
-    private static final ClassicalHardware instance = new ClassicalHardware();
-    private DifferentialPilot pilot = new DifferentialPilot(2.1f, 4f, Motor.A, Motor.C, true);
-
-    private ClassicalHardware() {
-
-    }
-
-    public static ClassicalHardware getInstance() {
-        return instance;
-    }
-
-    // TODO: implement methods using standard EV3 libraries
-
-
+public class VirtualHardware implements Hardware {
     @Override
     public void travel(int distance) {
-        DifferentialPilot pilot = new DifferentialPilot(2.71f, 4.4f, Motor.A, Motor.C, true);
+
     }
 
     @Override
     public void turnLeft() {
-        pilot.rotate(-90);
+        turnLeft(90);
     }
 
     @Override
     public void turnRight() {
-        pilot.rotate(90);
+        turnRight(90);
     }
 
     @Override
     public void turnLeft(int angle) {
-
+        turn(angle);
     }
 
     @Override
     public void turnRight(int angle) {
-
+        turn(-angle);
     }
 
     @Override
@@ -65,12 +49,12 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public boolean headTouch() {
-        if ()
+        return false;
     }
 
     @Override
     public boolean backTouch() {
-
+        return false;
     }
 
     @Override
@@ -79,7 +63,17 @@ public class ClassicalHardware implements Hardware {
     }
 
     @Override
-    public void turnSonar(Direction direction) {
+    public void turnSonarLeft() {
+
+    }
+
+    @Override
+    public void turnSonarAhead() {
+
+    }
+
+    @Override
+    public void turnSonarBack() {
 
     }
 

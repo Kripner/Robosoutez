@@ -3,6 +3,8 @@ package cz.matejkripner.core;
 import cz.matejkripner.Main;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Matìj Kripner <kripnermatej@gmail.com>
@@ -25,7 +27,14 @@ public enum Measurement {
     SONAR {
         @Override
         protected Object doMeasurement(Hardware hardware) {
-            // TODO: implement
+            Map<Hardware.Direction, Integer> measurements = new HashMap<>();
+            measurements.put(hardware.getSonarDirection(), hardware.sonar());
+            Hardware.Direction[] process = hardware.getSonarDirection().processAll();
+            hardware.turnSonar(process[0]);
+            measurements.put(process[0], hardware.sonar());
+            hardware.turnSonar(process[1]);
+            measurements.put(process[1], hardware.sonar());
+            return new SonarMeasurement(measurements);
         }
     },
     GYRO {
