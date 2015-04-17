@@ -1,10 +1,6 @@
 package cz.matejkripner.core;
 
-import lejos.hardware.Brick;
-import lejos.hardware.BrickFinder;
 import lejos.hardware.ev3.LocalEV3;
-import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.motor.Motor;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3GyroSensor;
 import lejos.robotics.RegulatedMotor;
@@ -28,7 +24,6 @@ public class ClassicalHardware implements Hardware {
     static RegulatedMotor rightMotor;
 
 
-
     private ClassicalHardware() {
         PilotProps pp = new PilotProps();
         try {
@@ -42,7 +37,7 @@ public class ClassicalHardware implements Hardware {
         rightMotor = PilotProps.getMotor(pp.getProperty(PilotProps.KEY_RIGHTMOTOR, "C"));
         boolean reverse = Boolean.parseBoolean(pp.getProperty(PilotProps.KEY_REVERSE, "true"));
 
-        robot = new DifferentialPilot(wheelDiameter,trackWidth,leftMotor,rightMotor,reverse);
+        robot = new DifferentialPilot(wheelDiameter, trackWidth, leftMotor, rightMotor, reverse);
         robot.setAcceleration(4000);
         robot.setTravelSpeed(180); // cm/sec
         robot.setRotateSpeed(90); // deg/sec
@@ -95,7 +90,7 @@ public class ClassicalHardware implements Hardware {
     }
 
     private void waitFor() {
-        while(robot.isMoving())Thread.yield();
+        while (robot.isMoving()) Thread.yield();
     }
 
     @Override
@@ -105,7 +100,7 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public boolean headTouch() {
-       return false;
+        return false;
     }
 
     @Override
@@ -115,10 +110,15 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public int gyro() {
-        float [] data = new float[gyro.sampleSize()];
-        gyro.getAngleMode().fetchSample(data,1);
-        return Math.round(data [0]);
+        float[] data = new float[gyro.sampleSize()];
+        gyro.getAngleMode().fetchSample(data, 0);
+        return Math.round(data[0]);
 
+    }
+
+    @Override
+    public void resetGyro() {
+        gyro.reset();
     }
 
 //    @Override

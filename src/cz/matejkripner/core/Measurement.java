@@ -52,7 +52,11 @@ public enum Measurement {
     }
 
     public Object get() {
-        return (isActual()) ? value : (value = doMeasurement(Main.currentHardware));
+        if(isActual()) return value;
+        else {
+            setActual(true);
+            return value = doMeasurement(Main.currentHardware);
+        }
     }
 
     public boolean isActual() {

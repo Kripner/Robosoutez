@@ -3,6 +3,7 @@ package cz.matejkripner.ai;
 import cz.matejkripner.Main;
 import cz.matejkripner.core.Hardware;
 import cz.matejkripner.core.Movement;
+import cz.matejkripner.core.Robot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,7 +65,11 @@ public enum Program implements Runnable {
     @Override
     public void run() {
         for(Instruction i : instructions) {
-            i.perform(Main.currentHardware);
+            if(i instanceof MovementInstruction) {
+                Robot.getInstance().perform(((MovementInstruction) i).movement);
+                Robot.getInstance().waitFor();
+            }
+            else i.perform(Main.currentHardware);
         }
     }
 

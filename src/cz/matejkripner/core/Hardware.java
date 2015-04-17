@@ -27,6 +27,8 @@ public interface Hardware {
 
     int gyro();
 
+    void resetGyro();
+
 //    void turnSonar(Direction direction);
 
 //    Direction getSonarDirection();
