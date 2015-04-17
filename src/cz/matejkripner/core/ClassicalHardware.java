@@ -34,17 +34,17 @@ public class ClassicalHardware implements Hardware {
     }
 
     @Override
-    public void rotateLeft(int angle) {
+    public void turnLeft(int angle) {
 
     }
 
     @Override
-    public void rotateRight(int angle) {
+    public void turnRight(int angle) {
 
     }
 
     @Override
-    public void rotate(int angle) {
+    public void turn(int angle) {
 
     }
 

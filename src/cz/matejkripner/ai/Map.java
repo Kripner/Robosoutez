@@ -20,11 +20,11 @@ public class Map {
     }
 
     public void setChunk(Point position, Chunk value) {
-
+        map[position.getY()][position.getX()] = value;
     }
 
     public Chunk getChunk(Point position) {
-
+        return map[position.getY()][position.getX()];
     }
 
     public Chunk[][] getMap() {
@@ -34,14 +34,14 @@ public class Map {
     public static Map getUniversal() {
         Map map = new Map();
         for (int i = 0; i < map.getMap().length; i++) {
-            Arrays.fill(map.getMap()[i], Chunk.UNKNOWK);
+            Arrays.fill(map.getMap()[i], Chunk.UNKNOWN);
         }
         return map;
     }
 
 
     public enum Chunk {
-        UNKNOWK,
+        UNKNOWN,
         WALL,
         SPACE_DONE,
         SPACE_NOT_DONE

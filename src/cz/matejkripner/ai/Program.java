@@ -4,15 +4,23 @@ import cz.matejkripner.Main;
 import cz.matejkripner.core.Hardware;
 import cz.matejkripner.core.Movement;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static cz.matejkripner.core.Movement.*;
 
 /**
  * @author Matìj Kripner <kripnermatej@gmail.com>
  * @version 1.0
  */
 public enum Program implements Runnable {
-    FIRST(new Map()), // TODO: initialize
+    FIRST(new Map(),
+            new InstructionsBuilder()
+            .add(GO_AHEAD)
+            ), // TODO: initialize
     SECOND(new Map()),
     THIRD(new Map()),
     FOURTH(new Map()),
@@ -22,16 +30,25 @@ public enum Program implements Runnable {
 
     private final Map map;
 
+    Program() {
+        this(null);
+    }
+
     Program(Map map) {
         this.map = map == null ? Map.getUniversal() : map;
         instructions = new LinkedList<>();
+    }
+
+    Program(Map map, InstructionsBuilder instructions) {
+        this.map = map;
+        this.instructions = instructions.instructions;
     }
 
     public Map getMap() {
         return map;
     }
 
-    void inst(Movement ... movements) {
+    void inst(Movement... movements) {
         for (Movement m : movements) {
             instructions.add(new MovementInstruction(m));
         }
@@ -49,10 +66,11 @@ public enum Program implements Runnable {
         }
     }
 
-    interface Instruction {
+    static interface Instruction {
         void perform(Hardware hardware);
     }
-    class MovementInstruction implements Instruction {
+
+    static class MovementInstruction implements Instruction {
 
         private final Movement movement;
 
@@ -66,19 +84,17 @@ public enum Program implements Runnable {
         }
     }
 
-//    class BadMapException extends RuntimeException {
-//        private Map betterMap;
-//
-//        BadMapException(Map betterMap) {
-//            this.betterMap = betterMap;
-//        }
-//
-//        BadMapException() {
-//            this(null);
-//        }
-//    }
 
     public static Program randomProgram() {
         return values()[((int) (Math.random() * values().length))];
+    }
+
+    private static class InstructionsBuilder {
+        private ArrayList<Instruction> instructions;
+
+        public InstructionsBuilder add(Movement ... instruction) {
+            instructions.addAll(Arrays.asList(Arrays.stream(instruction).map(MovementInstruction::new).collect(Collectors.toCollection(ArrayList::new))));
+            return this;
+        }
     }
 }

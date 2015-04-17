@@ -20,7 +20,7 @@ public class PixelMap { // Note that pixel there means 1 mm
         SPACE;
 
         public static Pixel getPixel(Map.Chunk chunk) {
-            if(chunk == Map.Chunk.UNKNOWK) throw new IllegalArgumentException("Unknown??");
+            if(chunk == Map.Chunk.UNKNOWN) throw new IllegalArgumentException("Unknown??");
             return (chunk == Map.Chunk.WALL) ? Pixel.WALL : Pixel.SPACE;
         }
     }

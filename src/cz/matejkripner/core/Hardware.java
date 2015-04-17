@@ -1,7 +1,5 @@
 package cz.matejkripner.core;
 
-import java.util.logging.Handler;
-
 /**
  * @author Matìj Kripner <kripnermatej@gmail.com>
  * @version 1.0
@@ -34,17 +32,18 @@ public interface Hardware {
     Direction getSonarDirection();
 
     enum Direction {
-        AHEAD,
-        LEFT,
-        RIGHT;
+        AHEAD(Direction.LEFT, Direction.RIGHT),
+        LEFT(Direction.AHEAD, Direction.RIGHT),
+        RIGHT(Direction.AHEAD, Direction.LEFT);
 
-        public Direction[] sideWith() {
-            switch (this) {
-                case LEFT:
-                case RIGHT:
-                return new Direction[] {Direction.AHEAD};
-            }
-            return new Direction[]{Direction.LEFT, Direction.RIGHT};
+        private final Direction[] processAll;
+
+        Direction(Direction ... processAll) {
+            this.processAll = processAll;
+        }
+
+        public Direction[] processAll() {
+            return processAll;
         }
     }
 }
