@@ -91,7 +91,6 @@ public enum Program implements Runnable {
         }
     }
 
-
     public static Program randomProgram() {
         return values()[((int) (Math.random() * values().length))];
     }

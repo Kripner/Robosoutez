@@ -27,23 +27,23 @@ public interface Hardware {
 
     int gyro();
 
-    void turnSonar(Direction direction);
+//    void turnSonar(Direction direction);
 
-    Direction getSonarDirection();
+//    Direction getSonarDirection();
 
-    enum Direction {
-        AHEAD(Direction.LEFT, Direction.RIGHT),
-        LEFT(Direction.AHEAD, Direction.RIGHT),
-        RIGHT(Direction.AHEAD, Direction.LEFT);
-
-        private final Direction[] processAll;
-
-        Direction(Direction ... processAll) {
-            this.processAll = processAll;
-        }
-
-        public Direction[] processAll() {
-            return processAll;
-        }
-    }
+//    enum Direction {
+//        AHEAD(Direction.LEFT, Direction.RIGHT),
+//        LEFT(Direction.AHEAD, Direction.RIGHT),
+//        RIGHT(Direction.AHEAD, Direction.LEFT);
+//
+//        private final Direction[] processAll;
+//
+//        Direction(Direction ... processAll) {
+//            this.processAll = processAll;
+//        }
+//
+//        public Direction[] processAll() {
+//            return processAll;
+//        }
+////    }
 }

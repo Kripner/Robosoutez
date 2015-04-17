@@ -1,6 +1,9 @@
 package cz.matejkripner.core;
 
+import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.Motor;
+import lejos.hardware.port.Port;
+import lejos.hardware.sensor.EV3GyroSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 
 /**
@@ -11,6 +14,9 @@ public class ClassicalHardware implements Hardware {
 
     private static final ClassicalHardware instance = new ClassicalHardware();
     private DifferentialPilot pilot = new DifferentialPilot(2.1f, 4f, Motor.A, Motor.C, true);
+    Port port = LocalEV3.get().getPort("S3");
+    private EV3GyroSensor gyro = new EV3GyroSensor(port);
+
 
     private ClassicalHardware() {
 
@@ -25,31 +31,32 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public void travel(int distance) {
-        DifferentialPilot pilot = new DifferentialPilot(2.1f, 4.4f, Motor.A, Motor.C, true);
+        DifferentialPilot pilot = new DifferentialPilot(2.71f, 4.4f, Motor.A, Motor.C, true);
     }
 
     @Override
     public void turnLeft() {
-
+        pilot.rotate(-90);
     }
 
     @Override
     public void turnRight() {
-
+        pilot.rotate(90);
     }
 
     @Override
     public void turnLeft(int angle) {
-
+        pilot.rotate(angle);
     }
 
     @Override
     public void turnRight(int angle) {
-
+        pilot.rotate(-angle);
     }
 
     @Override
     public void turn(int angle) {
+        pilot.rotate(angle);
 
     }
 
@@ -65,7 +72,7 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public boolean headTouch() {
-        return false;
+       return false;
     }
 
     @Override
@@ -75,16 +82,16 @@ public class ClassicalHardware implements Hardware {
 
     @Override
     public int gyro() {
-        return 0;
+        return gyro.getAngleMode().sampleSize();
     }
 
-    @Override
-    public void turnSonar(Direction direction) {
-
-    }
-
-    @Override
-    public Direction getSonarDirection() {
-        return null;
-    }
+//    @Override
+//    public void turnSonar(Direction direction) {
+//
+//    }
+//
+//    @Override
+//    public Direction getSonarDirection() {
+//        return null;
+//    }
 }

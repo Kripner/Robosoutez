@@ -16,6 +16,7 @@ public class Main {
 
     public static void main(String[] args) {
         currentHardware = ClassicalHardware.getInstance();
+
         AI ai = new AI(args[0]);
         ai.run();
     }
