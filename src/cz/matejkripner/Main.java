@@ -6,7 +6,7 @@ import cz.matejkripner.core.Hardware;
 
 public class Main {
 
-    public static final int BOARD_HEIGHT = 6;
+    public static final int BOARD_HEIGHT = 6; // tills
     public static final int BOARD_WIDTH = 9;
     public static final int ONE_TILL_DISTANCE = 280; // in millimeters
     public static final int ROBOT_LENGTH = 212;
@@ -15,6 +15,9 @@ public class Main {
     public static Hardware currentHardware;
 
     public static void main(String[] args) {
-       
+        currentHardware = ClassicalHardware.getInstance();
+
+        AI ai = new AI(args[0]);
+
     }
 }
