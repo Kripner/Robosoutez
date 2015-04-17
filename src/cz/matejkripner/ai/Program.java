@@ -17,7 +17,7 @@ import static cz.matejkripner.core.Movement.*;
  * @version 1.0
  */
 public enum Program implements Runnable {
-    FIRST(GO_AHEAD, GO_AHEAD, GO_BACK, TURN_RIGHT, GO_AHEAD, GO_AHEAD, TURN_LEFT, GO_AHEAD, GO_AHEAD,, TURN_LEFT, GO_AHEAD
+    FIRST(GO_AHEAD, GO_AHEAD, GO_BACK, TURN_RIGHT, GO_AHEAD, GO_AHEAD, TURN_LEFT, GO_AHEAD, GO_AHEAD, TURN_LEFT, GO_AHEAD
             ,GO_BACK, TURN_LEFT, TURN_LEFT, GO_AHEAD, GO_AHEAD, TURN_RIGHT, GO_AHEAD, GO_AHEAD, TURN_RIGHT, GO_AHEAD, GO_BACK, TURN_LEFT,
             GO_AHEAD, GO_AHEAD, GO_AHEAD, GO_BACK, TURN_RIGHT, GO_AHEAD, GO_AHEAD, TURN_LEFT, GO_AHEAD, GO_BACK, GO_BACK
             ,GO_AHEAD, TURN_RIGHT, GO_AHEAD, GO_AHEAD, TURN_LEFT, GO_AHEAD, GO_BACK, TURN_RIGHT, GO_AHEAD, GO_AHEAD,
@@ -47,10 +47,6 @@ public enum Program implements Runnable {
 
 
     private final List<Instruction> instructions;
-
-    Program() {
-        this(null);
-    }
 
     Program(Movement ... movement) {
         instructions = new ArrayList<>();
@@ -98,14 +94,5 @@ public enum Program implements Runnable {
 
     public static Program randomProgram() {
         return values()[((int) (Math.random() * values().length))];
-    }
-
-    private static class InstructionsBuilder {
-        private ArrayList<Instruction> instructions;
-
-        public InstructionsBuilder add(Movement ... instruction) {
-            instructions.addAll(Arrays.asList(Arrays.stream(instruction).map(MovementInstruction::new).collect(Collectors.toCollection(ArrayList::new))));
-            return this;
-        }
     }
 }
