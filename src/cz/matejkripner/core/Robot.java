@@ -1,14 +1,10 @@
 package cz.matejkripner.core;
 
 import cz.matejkripner.Main;
-import cz.matejkripner.Utils;
 
-import java.util.function.Predicate;
-
-import static cz.matejkripner.core.Movement.TURN_LEFT;
 
 /**
- * @author Mat�j Kripner <kripnermatej@gmail.com>
+ * @author Matěj Kripner <kripnermatej@gmail.com>
  * @version 1.0
  */
 public class Robot {
@@ -69,12 +65,6 @@ public class Robot {
             Thread.sleep(1);
         } catch (InterruptedException e) {
             waitFor();
-        }
-    }
-
-    public void doWhile(Movement movement, Predicate<Robot> whileSatisfied) {
-        while (whileSatisfied.test(this)) {
-            perform(movement);
         }
     }
 }

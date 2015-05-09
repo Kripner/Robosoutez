@@ -1,21 +1,34 @@
 package cz.matejkripner.ai;
 
 /**
- * @author Mat�j Kripner <kripnermatej@gmail.com>
+ * AI module
+ * @author Matěj Kripner <kripnermatej@gmail.com>
+ * @author Jakub Vaněk <vanek.jakub4@seznam.cz>
  * @version 1.0
  */
 public class AI implements Runnable {
-
+	/**
+	 * Selected program
+	 */
     private Program program;
 
-    public AI(String mapAsParameter) {
-        if(mapAsParameter.equals("1")) mapAsParameter = "FIRST";
-        if(mapAsParameter.equals("2")) mapAsParameter = "SECOND";
-        if(mapAsParameter.equals("3")) mapAsParameter = "THIRD";
-        if(mapAsParameter.equals("4")) mapAsParameter = "FOURTH";
-        program = Program.valueOf(mapAsParameter.toUpperCase());
+	/**
+	 * Initialize AI with selected map's program
+	 * @see cz.matejkripner.ai.Program
+	 * @param prgNum
+	 */
+    public AI(int prgNum) {
+	    program = Program.valueOf(getProgramName(prgNum));
     }
+
+	/**
+	 * Execute program
+	 */
     public void run() {
         program.run();
     }
+
+	private static String getProgramName(int number){
+		return String.format("PROGRAM%d",number);
+	}
 }

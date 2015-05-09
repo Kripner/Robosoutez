@@ -1,113 +1,149 @@
 package cz.matejkripner.core;
 
-import lejos.hardware.ev3.LocalEV3;
-import lejos.hardware.port.Port;
+import lejos.hardware.BrickFinder;
 import lejos.hardware.sensor.EV3GyroSensor;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.utility.PilotProps;
-
-import java.io.IOException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
- * @author Mat�j Kripner <kripnermatej@gmail.com>
+ * Router for robot's hardware
+ * @author Matěj Kripner <kripnermatej@gmail.com>
  * @version 1.0
  */
 public class ClassicalHardware implements Hardware {
-
     private static final ClassicalHardware instance = new ClassicalHardware();
-    private DifferentialPilot robot;
-    Port port = LocalEV3.get().getPort("S3");
-    private EV3GyroSensor gyro = new EV3GyroSensor(port);
-
+	private Direction sonicDirection = Direction.LEFT; // TODO ensure that sonic is really in that direction
+    private DifferentialPilot hardware;
+    private EV3GyroSensor gyro;
+	private EV3UltrasonicSensor sonic;
     static RegulatedMotor leftMotor;
     static RegulatedMotor rightMotor;
+	private static final Constants CONSTANTS = new ClassicalConstants();
 
 
     private ClassicalHardware() {
-        PilotProps pp = new PilotProps();
-        try {
-            pp.loadPersistentValues();
-        } catch (IOException e) {
-            // do nothing
-        }
-        float wheelDiameter = Float.parseFloat(pp.getProperty(PilotProps.KEY_WHEELDIAMETER, "70"));
-        float trackWidth = Float.parseFloat(pp.getProperty(PilotProps.KEY_TRACKWIDTH, "90"));
-        leftMotor = PilotProps.getMotor(pp.getProperty(PilotProps.KEY_LEFTMOTOR, "B"));
-        rightMotor = PilotProps.getMotor(pp.getProperty(PilotProps.KEY_RIGHTMOTOR, "C"));
-        boolean reverse = Boolean.parseBoolean(pp.getProperty(PilotProps.KEY_REVERSE, "true"));
-
-        robot = new DifferentialPilot(wheelDiameter, trackWidth, leftMotor, rightMotor, reverse);
-        robot.setAcceleration(4000);
-        robot.setTravelSpeed(180); // cm/sec
-        robot.setRotateSpeed(90); // deg/sec
-
+        float wheelDiameter = CONSTANTS.WHEELDIAMETER;
+        float trackWidth = CONSTANTS.TRACKWIDTH;
+        leftMotor = PilotProps.getMotor(CONSTANTS.LEFTMOTOR);
+        rightMotor = PilotProps.getMotor(CONSTANTS.RIGHTMOTOR);
+        hardware = new DifferentialPilot(wheelDiameter, trackWidth, leftMotor, rightMotor, true);
+        hardware.setAcceleration(CONSTANTS.ACCEL);
+        hardware.setTravelSpeed(CONSTANTS.TRAVELSPEED);
+        hardware.setRotateSpeed(CONSTANTS.ROTATESPEED);
+	    gyro = new EV3GyroSensor(BrickFinder.getLocal().getPort(CONSTANTS.GYROPORT)); // TODO WARNING - CALIBRATION
+	    sonic = new EV3UltrasonicSensor(BrickFinder.getLocal().getPort(CONSTANTS.SONICPORT));
     }
-
     public static ClassicalHardware getInstance() {
         return instance;
     }
 
     // TODO: implement methods using standard EV3 libraries
+	// TODO: how? i think it's already implemented, only different way i see is to extend DifferentialPilot - Jakub Vaněk
 
-
+	/**
+	 * Travel specified distance, synchronous
+	 * @param distance Distance in centimeters
+	 */
     @Override
     public void travel(int distance) {
-        robot.travel(distance);
+        hardware.travel(distance);
         waitFor();
     }
 
+	/**
+	 * Turn 90° to left
+	 */
     @Override
     public void turnLeft() {
         turn(-90);
     }
 
+	/**
+	 * Turn 90° to right
+	 */
     @Override
     public void turnRight() {
         turn(90);
     }
 
+	/**
+	 * Turn {@link Math#abs(int angle)} degrees to left
+	 * @param angle Angle to left
+	 */
     @Override
     public void turnLeft(int angle) {
-        turn(angle);
+        turn(-Math.abs(angle));
     }
 
+	/**
+	 * Turn {@link Math#abs(int angle)} degrees to right
+	 * @param angle Angle to left
+	 */
     @Override
     public void turnRight(int angle) {
-        turn(angle);
+        turn(Math.abs(angle));
     }
 
+	/**
+	 * Turn specified angle
+	 * @param angle Angle to rotate by
+	 */
     @Override
     public void turn(int angle) {
-        robot.rotate(angle);
+        hardware.rotate(angle);
         waitFor();
-
     }
 
+	/**
+	 * Check if hardware is moving.
+	 * @return Boolean
+	 */
     @Override
     public boolean isRunning() {
-        return robot.isMoving();
+        return hardware.isMoving();
     }
 
+	/**
+	 * Wait for finish of move.
+	 */
     private void waitFor() {
-        while (robot.isMoving()) Thread.yield();
+        while (hardware.isMoving()) Thread.yield();
     }
 
+	/**
+	 * Return value from ultrasonic sensor.
+	 * @return
+	 */
     @Override
-    public int sonar() {
+    public int sonic() {
         return 0;
     }
 
+	/**
+	 * Check if front button is pressed or not.
+	 * @return true if pressed
+	 */
     @Override
     public boolean headTouch() {
         return false;
     }
 
+	/**
+	 * Check if rear button is pressed or not.
+	 * @return true if pressed
+	 */
     @Override
     public boolean backTouch() {
         return false;
     }
 
+	/**
+	 * Return gyro value (from Angle Mode)
+	 * @return Degrees from last reset
+	 */
     @Override
     public int gyro() {
         float[] data = new float[gyro.sampleSize()];
@@ -116,18 +152,49 @@ public class ClassicalHardware implements Hardware {
 
     }
 
+	/**
+	 * Reset gyroscope
+	 */
     @Override
     public void resetGyro() {
         gyro.reset();
     }
 
-//    @Override
-//    public void turnSonar(Direction direction) {
-//
-//    }
-//
-//    @Override
-//    public Direction getSonarDirection() {
-//        return null;
-//    }
+	/**
+	 * Return robot's constants
+	 * @return Robot's constants
+	 */
+    public Constants getConstants(){
+        return CONSTANTS;
+    }
+
+	/**
+	 * Turn sonic to specified direction
+	 * @param direction
+	 */
+	@Override
+	public void turnSonic(Direction direction) {
+		switch (sonicDirection.compare(direction)) {
+			case -2:
+				throw new NotImplementedException();
+			case -1:
+				throw new NotImplementedException();
+			case 0:
+				throw new NotImplementedException();
+			case 1:
+				throw new NotImplementedException();
+			case 2:
+				throw new NotImplementedException();
+		}
+		sonicDirection = direction;
+	}
+
+	/**
+	 * Get actual sonic direction
+	 * @return Sonic direction
+	 */
+	@Override
+	public Direction getSonicDirection() {
+		return sonicDirection;
+	}
 }

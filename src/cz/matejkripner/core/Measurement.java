@@ -2,12 +2,11 @@ package cz.matejkripner.core;
 
 import cz.matejkripner.Main;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Matìj Kripner <kripnermatej@gmail.com>
+ * @author MatÄ›j Kripner <kripnermatej@gmail.com>
  * @version 1.0
  */
 public enum Measurement {
@@ -24,19 +23,19 @@ public enum Measurement {
             return hardware.headTouch();
         }
     },
-//    SONAR {
-//        @Override
-////        protected Object doMeasurement(Hardware hardware) {
-////            Map<Hardware.Direction, Integer> measurements = new HashMap<>();
-////            measurements.put(hardware.getSonarDirection(), hardware.sonar());
-////            Hardware.Direction[] process = hardware.getSonarDirection().processAll();
-////            hardware.turnSonar(process[0]);
-////            measurements.put(process[0], hardware.sonar());
-////            hardware.turnSonar(process[1]);
-////            measurements.put(process[1], hardware.sonar());
-////            return new SonarMeasurement(measurements);
-////        }
-//    },
+    ULTRASONIC {
+        @Override
+        protected Object doMeasurement(Hardware hardware) {
+            Map<Hardware.Direction, Integer> measurements = new HashMap<>();
+            measurements.put(hardware.getSonicDirection(), hardware.sonic());
+            Hardware.Direction[] process = hardware.getSonicDirection().processAll();
+            hardware.turnSonic(process[0]);
+            measurements.put(process[0], hardware.sonic());
+            hardware.turnSonic(process[1]);
+            measurements.put(process[1], hardware.sonic());
+            return new SonicMeasurement(measurements);
+        }
+    },
     GYRO {
         @Override
         protected Object doMeasurement(Hardware hardware) {

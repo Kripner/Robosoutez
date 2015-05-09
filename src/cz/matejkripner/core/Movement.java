@@ -3,26 +3,26 @@ package cz.matejkripner.core;
 import cz.matejkripner.Main;
 
 /**
- * @author Matìj Kripner <kripnermatej@gmail.com>
+ * @author MatÄ›j Kripner <kripnermatej@gmail.com>
  * @version 1.0
  */
 public enum Movement {
     GO_AHEAD {
         @Override
         public void perform(Hardware hardware) {
-            Main.currentHardware.travel(Main.ONE_TILL_DISTANCE);
+            Main.currentHardware.travel(Main.currentConstants.TILE_LENGTH);
         }
     },
     GO_BACK {
         @Override
         public void perform(Hardware hardware) {
-            Main.currentHardware.travel(-Main.ONE_TILL_DISTANCE);
+            Main.currentHardware.travel(-Main.currentConstants.TILE_LENGTH);
         }
     },
     GO_HALF_BACK {
         @Override
         public void perform(Hardware hardware) {
-            Main.currentHardware.travel(-Main.FROM_WALL_TO_CENTER_DISTANCE);
+            Main.currentHardware.travel(-Main.currentConstants.FROM_WALL_TO_CENTER_DISTANCE);
         }
     },
     TURN_LEFT {
