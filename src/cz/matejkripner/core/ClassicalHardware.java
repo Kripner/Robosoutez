@@ -1,47 +1,93 @@
 package cz.matejkripner.core;
 
+import cz.matejkripner.util.Utils;
 import lejos.hardware.BrickFinder;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.motor.EV3MediumRegulatedMotor;
+import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3GyroSensor;
+import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
-import lejos.robotics.RegulatedMotor;
 import lejos.robotics.navigation.DifferentialPilot;
-import lejos.utility.PilotProps;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Router for robot's hardware
  * @author Matěj Kripner <kripnermatej@gmail.com>
- * @version 1.0
+ * @author Jakub Vaněk <vanek.jakub4@seznam.cz>
+ * @version 1.1
  */
 public class ClassicalHardware implements Hardware {
+	/**
+	 * Static instance
+	 */
     private static final ClassicalHardware instance = new ClassicalHardware();
+	/**
+	 * Actual sonic direction
+	 */
 	private Direction sonicDirection = Direction.LEFT; // TODO ensure that sonic is really in that direction
-    private DifferentialPilot hardware;
+	/**
+	 * Physical robot
+	 */
+    private DifferentialPilot physics;
+	/**
+	 * Gyroscope
+	 */
     private EV3GyroSensor gyro;
+	/**
+	 * Ultrasonic sensor
+	 */
 	private EV3UltrasonicSensor sonic;
-    static RegulatedMotor leftMotor;
-    static RegulatedMotor rightMotor;
+	/**
+	 * Head touch sensor
+	 */
+    private EV3TouchSensor headTouch;
+	/**
+	 * Back touch sensor
+	 */
+	private EV3TouchSensor backTouch;
+	/**
+	 * Left motor
+	 */
+    private EV3LargeRegulatedMotor leftMotor;
+	/**
+	 * Right motor
+	 */
+	private EV3LargeRegulatedMotor rightMotor;
+	/**
+	 * Ultrasonic sensor motor
+	 */
+	private EV3MediumRegulatedMotor sonicMotor;
+	/**
+	 * Constants for this hardware
+	 */
 	private static final Constants CONSTANTS = new ClassicalConstants();
 
-
+	/**
+	 * Default constructor
+	 */
     private ClassicalHardware() {
         float wheelDiameter = CONSTANTS.WHEELDIAMETER;
         float trackWidth = CONSTANTS.TRACKWIDTH;
-        leftMotor = PilotProps.getMotor(CONSTANTS.LEFTMOTOR);
-        rightMotor = PilotProps.getMotor(CONSTANTS.RIGHTMOTOR);
-        hardware = new DifferentialPilot(wheelDiameter, trackWidth, leftMotor, rightMotor, true);
-        hardware.setAcceleration(CONSTANTS.ACCEL);
-        hardware.setTravelSpeed(CONSTANTS.TRAVELSPEED);
-        hardware.setRotateSpeed(CONSTANTS.ROTATESPEED);
+        leftMotor = new EV3LargeRegulatedMotor(getPort(CONSTANTS.LEFTMOTOR));
+	    rightMotor = new EV3LargeRegulatedMotor(getPort(CONSTANTS.RIGHTMOTOR));
+	    sonicMotor = new EV3MediumRegulatedMotor(getPort(CONSTANTS.SONICMOTOR));
+
+        physics = new DifferentialPilot(wheelDiameter, trackWidth, leftMotor, rightMotor, true);
+        physics.setAcceleration(CONSTANTS.ACCEL);
+        physics.setTravelSpeed(CONSTANTS.TRAVELSPEED);
+        physics.setRotateSpeed(CONSTANTS.ROTATESPEED);
+
 	    gyro = new EV3GyroSensor(BrickFinder.getLocal().getPort(CONSTANTS.GYROPORT)); // TODO WARNING - CALIBRATION
 	    sonic = new EV3UltrasonicSensor(BrickFinder.getLocal().getPort(CONSTANTS.SONICPORT));
+	    headTouch = new EV3TouchSensor(getPort(CONSTANTS.HEADTOUCH_PORT));
+	    backTouch = new EV3TouchSensor(getPort(CONSTANTS.BACKTOUCH_PORT));
     }
     public static ClassicalHardware getInstance() {
         return instance;
     }
 
     // TODO: implement methods using standard EV3 libraries
-	// TODO: how? i think it's already implemented, only different way i see is to extend DifferentialPilot - Jakub Vaněk
+	// TODO: how? i think it's already implemented - Jakub Vaněk
 
 	/**
 	 * Travel specified distance, synchronous
@@ -49,10 +95,28 @@ public class ClassicalHardware implements Hardware {
 	 */
     @Override
     public void travel(int distance) {
-        hardware.travel(distance);
-        waitFor();
+        physics.travel(distance, false);
     }
 
+	/**
+	 * Back-crash to wall and travel back
+	 */
+	@Override
+	public void backAlign(){
+		physics.backward();
+		while(!backTouch()) Thread.yield();
+		physics.travel(CONSTANTS.FROM_WALL_TO_CENTER_DISTANCE, false);
+	}
+
+	/**
+	 * Head-crash to wall and travel back
+	 */
+	@Override
+	public void headAlign(){
+		physics.forward();
+		while(!headTouch()) Thread.yield();
+		physics.travel(-CONSTANTS.FROM_WALL_TO_CENTER_DISTANCE, false);
+	}
 	/**
 	 * Turn 90° to left
 	 */
@@ -93,34 +157,37 @@ public class ClassicalHardware implements Hardware {
 	 */
     @Override
     public void turn(int angle) {
-        hardware.rotate(angle);
-        waitFor();
+        physics.rotate(angle, false);
     }
 
 	/**
-	 * Check if hardware is moving.
+	 * Check if robot is moving.
 	 * @return Boolean
 	 */
     @Override
     public boolean isRunning() {
-        return hardware.isMoving();
-    }
-
-	/**
-	 * Wait for finish of move.
-	 */
-    private void waitFor() {
-        while (hardware.isMoving()) Thread.yield();
+        return physics.isMoving();
     }
 
 	/**
 	 * Return value from ultrasonic sensor.
-	 * @return
+	 * @return Distance.
 	 */
     @Override
-    public int sonic() {
-        return 0;
+    public float sonic() {
+	    float distance = Utils.getFirstSample(sonic.getDistanceMode());
+        return Math.round(distance);
     }
+
+	/**
+	 * Check whether value from ultrasonic sensor is buggy.
+	 * @param dist Value obtained from {@link #sonic()}
+	 * @return dist == {@link Float#POSITIVE_INFINITY}
+	 */
+	@Override
+	public boolean sonicBug(float dist){
+		return dist==Float.POSITIVE_INFINITY;
+	}
 
 	/**
 	 * Check if front button is pressed or not.
@@ -128,7 +195,7 @@ public class ClassicalHardware implements Hardware {
 	 */
     @Override
     public boolean headTouch() {
-        return false;
+        return Utils.getFirstSample(headTouch.getTouchMode()) == 1.0f;
     }
 
 	/**
@@ -137,7 +204,7 @@ public class ClassicalHardware implements Hardware {
 	 */
     @Override
     public boolean backTouch() {
-        return false;
+	    return Utils.getFirstSample(backTouch.getTouchMode()) == 1.0f;
     }
 
 	/**
@@ -146,10 +213,8 @@ public class ClassicalHardware implements Hardware {
 	 */
     @Override
     public int gyro() {
-        float[] data = new float[gyro.sampleSize()];
-        gyro.getAngleMode().fetchSample(data, 0);
-        return Math.round(data[0]);
-
+	    float value = Utils.getFirstSample(gyro.getAngleMode());
+	    return Math.round(value);
     }
 
 	/**
@@ -164,28 +229,19 @@ public class ClassicalHardware implements Hardware {
 	 * Return robot's constants
 	 * @return Robot's constants
 	 */
+	@Override
     public Constants getConstants(){
         return CONSTANTS;
     }
 
 	/**
 	 * Turn sonic to specified direction
-	 * @param direction
+	 * @param direction Ultrasonic sensor direction
 	 */
 	@Override
 	public void turnSonic(Direction direction) {
-		switch (sonicDirection.compare(direction)) {
-			case -2:
-				throw new NotImplementedException();
-			case -1:
-				throw new NotImplementedException();
-			case 0:
-				throw new NotImplementedException();
-			case 1:
-				throw new NotImplementedException();
-			case 2:
-				throw new NotImplementedException();
-		}
+		int rotate = sonicDirection.compare(direction);
+		sonicMotor.rotate(rotate*CONSTANTS.SONIC_MOVE);
 		sonicDirection = direction;
 	}
 
@@ -196,5 +252,14 @@ public class ClassicalHardware implements Hardware {
 	@Override
 	public Direction getSonicDirection() {
 		return sonicDirection;
+	}
+
+	/**
+	 * Get port from port name
+	 * @param name Port name
+	 * @return Port on local EV3
+	 */
+	public static Port getPort(String name){
+		return BrickFinder.getLocal().getPort(name);
 	}
 }

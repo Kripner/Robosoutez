@@ -7,9 +7,15 @@ import lejos.hardware.lcd.LCD;
 import lejos.utility.Delay;
 
 /**
+ * User interface
  * @author Jakub Vaněk <vanek.jakub4@seznam.cz>
+ * @version 1.1
  */
 public class UI {
+	/**
+	 * Print prompt and ask user for a value, after selected, return this value
+	 * @return Selected value from user
+	 */
 	public static int getValue() {
 		int min = 1;
 		int max = Main.currentConstants.PROGRAMS;

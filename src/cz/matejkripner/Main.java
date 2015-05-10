@@ -10,6 +10,7 @@ import cz.matejkripner.util.UI;
  * Main class
  * @author Matěj Kripner <kripnermatej@gmail.com>
  * @author Jakub Vaněk <vanek.jakub4@seznam.cz>
+ * @version 1.1
  */
 public class Main {
 	/**
@@ -28,6 +29,7 @@ public class Main {
     public static void main(String[] args) {
         currentHardware = ClassicalHardware.getInstance(); // initialize classical robot
 	    currentConstants = currentHardware.getConstants(); // get constants
+        currentHardware.resetGyro();
 
         AI ai = new AI(UI.getValue()); // get program number and init corresponding AI
         ai.run(); // start that AI
