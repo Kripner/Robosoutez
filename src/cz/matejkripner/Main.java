@@ -1,24 +1,37 @@
 package cz.matejkripner;
 
 import cz.matejkripner.ai.AI;
-import cz.matejkripner.ai.Program;
 import cz.matejkripner.core.ClassicalHardware;
+import cz.matejkripner.core.Constants;
 import cz.matejkripner.core.Hardware;
+import cz.matejkripner.util.UI;
 
+/**
+ * Main class
+ * @author Matěj Kripner <kripnermatej@gmail.com>
+ * @author Jakub Vaněk <vanek.jakub4@seznam.cz>
+ * @version 1.1
+ */
 public class Main {
-
-    public static final int BOARD_HEIGHT = 6; // tills
-    public static final int BOARD_WIDTH = 9;
-    public static final int ONE_TILL_DISTANCE = 280; // in millimeters
-    public static final int ROBOT_LENGTH = 212;
-    public static final int FROM_WALL_TO_CENTER_DISTANCE = (ONE_TILL_DISTANCE - ROBOT_LENGTH) / 2;
-
+	/**
+	 * Current robot
+	 */
     public static Hardware currentHardware;
+	/**
+	 * Current robot's constants
+	 */
+	public static Constants currentConstants;
 
+	/**
+	 * Program entry-point
+	 * @param args Ignored
+	 */
     public static void main(String[] args) {
-        currentHardware = ClassicalHardware.getInstance();
+        currentHardware = ClassicalHardware.getInstance(); // initialize classical robot
+	    currentConstants = currentHardware.getConstants(); // get constants
+        currentHardware.resetGyro();
 
-        AI ai = new AI("FIRST");
-        ai.run();
+        AI ai = new AI(UI.getValue()); // get program number and init corresponding AI
+        ai.run(); // start that AI
     }
 }
